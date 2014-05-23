@@ -1,0 +1,17 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+newmtl Material.001
+Ka 0 0 0
+Kd 0.64 0.64 0.64
+Ks 0.007937 0.007937 0.007937
+illum 2
+Ns 13.7255
+map_Kd Rock-Texture-Surface.jpg
+map_bump 
+bump 
+map_opacity isp Rock-Texture-Surface.jpg
+map_d isp Rock-Texture-Surface.jpg
+refl 
+map_kS 
+map_kA 
+map_Ns 
