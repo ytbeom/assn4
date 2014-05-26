@@ -1,4 +1,4 @@
-//http://junpp.egloos.com/viewer/2410743
+// http://junpp.egloos.com/viewer/2410743
 // 헤더파일, 소스파일 분리작업 거침
 
 #include <stdio.h>

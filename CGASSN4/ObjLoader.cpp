@@ -1,13 +1,5 @@
 #include "ObjLoader.h"
 
-
-////////////////////////////////////////////////////////////////////
-// Allocate memory and load targa bits. Returns pointer to new buffer,
-// height, and width of texture, and the OpenGL format of data.
-// Call free() on buffer when finished!
-// This only works on pretty vanilla targas... 8, 24, or 32 bit color
-// only, no palettes, no RLE encoding.
-
 // 필요한 코드만 남기고 전체 수정
 // 수정시 참고한 사이트
 // http://blog.naver.com/PostView.nhn?blogId=bluefallsky&logNo=140119335319
@@ -19,26 +11,22 @@ void model::draw()
 	{
 		fnode * fcursor = ffirst;
 		int nCnt = 0;
-		glBegin(GL_LINE_LOOP);
+		glBegin(GL_TRIANGLES);
 		while(fcursor != NULL)
 		{
 			nCnt++;
 			glColor3f(150.0/255, 75.0/255, 0);
 
 			glTexCoord2f(fcursor->data.u[0], fcursor->data.v[0]);
-			glNormal3f(fcursor->data.a[0], fcursor->data.b[0], fcursor->data.c[0]);
 			glVertex3f(fcursor->data.x[0], fcursor->data.y[0], fcursor->data.z[0]);
 
 			glTexCoord2f(fcursor->data.u[1], fcursor->data.v[1]);
-			glNormal3f(fcursor->data.a[1], fcursor->data.b[1], fcursor->data.c[1]);
 			glVertex3f(fcursor->data.x[1], fcursor->data.y[1], fcursor->data.z[1]);
 
 			glTexCoord2f(fcursor->data.u[2], fcursor->data.v[2]);
-			glNormal3f(fcursor->data.a[2], fcursor->data.b[2], fcursor->data.c[2]);
 			glVertex3f(fcursor->data.x[2], fcursor->data.y[2], fcursor->data.z[2]);
 			fcursor = fcursor->next;
 		}
-		
 		glEnd();
 	}
 }

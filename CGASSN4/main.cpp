@@ -5,6 +5,7 @@
 #include "fireloop.h"
 #include "stage.h"
 #include "rock.h"
+#include "BitmapLoader.h"
 
 float mapsize;
 float bottom = 20.0;
@@ -21,6 +22,10 @@ Background my_bg;
 //Firepot my_pot(jumplength);
 Rock my_rock(jumplength);
 Fireloop my_loop(jumplength);
+
+GLubyte *rock; // 데이터를 가리킬 포인터
+BITMAPINFO *rock_info; // 비트맵 헤더 저장할 변수
+GLuint rock_texture; // 바위 표면 texture
 
 void init(void)
 {
@@ -42,6 +47,15 @@ void init(void)
 	//my_pot.init(jumplength,mapsize,stage);
 	my_rock.init(jumplength,mapsize,stage);
 	my_loop.init(jumplength,mapsize,stage);
+
+	glGenTextures (1,  &rock_texture); 
+	glBindTexture(GL_TEXTURE_2D, rock_texture);
+	rock=LoadDIBitmap("Rock-Texture-Surface.bmp",&rock_info);
+	glTexImage2D ( GL_TEXTURE_2D, 0, 3, 2592, 1944, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, rock);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
@@ -197,9 +211,17 @@ void display(void)
 		glPopMatrix();
 
 		// draw rock
+		glEnable (GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, rock_texture);
+		glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 		glPushMatrix();
 		my_rock.display_rock();
 		glPopMatrix();
+		glEnable(GL_DEPTH_TEST);
+		glFrontFace(GL_CCW);  
+		glEnable(GL_CULL_FACE);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glFlush();
 		glutSwapBuffers();
