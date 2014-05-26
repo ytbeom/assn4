@@ -94,10 +94,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
 		glRotatef(thigh_angle_list[state],0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[state%8],0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();	
 
 		// 앞쪽 오른다리
@@ -107,10 +109,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
 		glRotatef(thigh_angle_list[state],0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[state%8],0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 
 		// 뒷쪽 왼다리
@@ -120,10 +124,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
 		glRotatef(thigh_angle_list[(state+4)%8],0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[(state+4)%8],0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 
 		// 뒷쪽 오른다리
@@ -133,10 +139,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
 		glRotatef(thigh_angle_list[(state+4)%8],0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[(state+4)%8],0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 	}
 	else {
@@ -147,11 +155,13 @@ void Lion::drawLion(){
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
 		glRotatef(60,0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(0,0.0,0.0,1.0);
 		drawLowerLeg();
 		glPopMatrix();	
+		glPopMatrix();
 
 		// 앞쪽 오른다리
 		glColor3f(1.0,1.0,0.0);
@@ -160,10 +170,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
 		glRotatef(60,0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(0,0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 
 		// 뒷쪽 왼다리
@@ -173,10 +185,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
 		glRotatef(-45,0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(-45,0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 
 		// 뒷쪽 오른다리
@@ -186,10 +200,12 @@ void Lion::drawLion(){
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
 		glRotatef(-45,0.0,0.0,1.0);
 		drawUpperLeg();
+		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(-45,0.0,0.0,1.0);
 		drawLowerLeg();
+		glPopMatrix();
 		glPopMatrix();
 	}
 	
@@ -206,11 +222,6 @@ void Lion::drawLion(){
 	glScalef(8,8,8);
 	drawTorso();
 	glPopMatrix();
-
-	
-	
-
-
 }
 
 // 시작 좌표를 (0,0)으로 해 몸통을 그림
@@ -247,7 +258,6 @@ void Lion::drawTorso() {
 	glPopMatrix();
 	
 	glPopMatrix();
-	
 }
 
 // 시작 좌표를 (0,0)으로 해 머리를 그림

@@ -22,7 +22,6 @@ void model::draw()
 		glBegin(GL_LINE_LOOP);
 		while(fcursor != NULL)
 		{
-//			glBindTexture(GL_TEXTURE_2D, fcursor->mat->data.texture);
 			nCnt++;
 			glColor3f(150.0/255, 75.0/255, 0);
 
