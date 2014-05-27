@@ -28,6 +28,14 @@ Lion::Lion() {
 	knee_angle_list[5] = 0.0;
 	knee_angle_list[6] = 0.0;
 	knee_angle_list[7] = -45.0;
+
+	face = gluNewQuadric();
+	gluQuadricDrawStyle(face, GLU_FILL);
+	gluQuadricTexture(face, GL_TRUE);
+		
+	mane = gluNewQuadric();
+	gluQuadricDrawStyle(mane, GLU_FILL);
+	gluQuadricTexture(mane, GL_TRUE);
 }
 
 int Lion::IsCollisionPot(float _x, float _y, float _radius){
@@ -75,16 +83,19 @@ void Lion::drawClear(Lion my_lion, int viewmode){
 		glutBitmapCharacter(font,string[i]);
 }
 
+/*
 void Lion::drawLeg(){
 	
 }
+*/
 
-void Lion::drawLion(){
-
-
+void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 	// assignment2 drawLion function
 
 	// 시작은 Torso의 기준점, 겹치는 문제 때문에 다리를 먼저그림
+	glEnable (GL_TEXTURE_2D);
+	glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	if (jump_state == 0) {
 		// 앞쪽 왼다리
@@ -93,12 +104,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
 		glRotatef(thigh_angle_list[state],0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[state%8],0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();	
 
@@ -108,12 +119,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
 		glRotatef(thigh_angle_list[state],0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[state%8],0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 
@@ -123,12 +134,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
 		glRotatef(thigh_angle_list[(state+4)%8],0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[(state+4)%8],0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 
@@ -138,12 +149,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
 		glRotatef(thigh_angle_list[(state+4)%8],0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(knee_angle_list[(state+4)%8],0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 	}
@@ -154,12 +165,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
 		glRotatef(60,0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(0,0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();	
 		glPopMatrix();
 
@@ -169,12 +180,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
 		glRotatef(60,0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(0,0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 
@@ -184,12 +195,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
 		glRotatef(-45,0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(-45,0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 
@@ -199,12 +210,12 @@ void Lion::drawLion(){
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
 		glRotatef(-45,0.0,0.0,1.0);
-		drawUpperLeg();
+		drawUpperLeg(lion_1_texture, lion_2_texture);
 		glPushMatrix();
 		// 위쪽 다리와 아랫쪽 다리의 상대적인 위치 변환
 		glTranslatef(0,-0.12*size,0);
 		glRotatef(-45,0.0,0.0,1.0);
-		drawLowerLeg();
+		drawLowerLeg(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 		glPopMatrix();
 	}
@@ -212,7 +223,7 @@ void Lion::drawLion(){
 	glPushMatrix();
 	glRotatef(90,0,1,0);
 	glScalef(4,4,4);
-	drawHead();
+	drawHead(lion_1_texture, lion_2_texture);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -220,12 +231,12 @@ void Lion::drawLion(){
 	glRotatef(270,0,1,0);
 	glRotatef(90,0,0,1);
 	glScalef(8,8,8);
-	drawTorso();
+	drawTorso(lion_1_texture, lion_2_texture);
 	glPopMatrix();
 }
 
 // 시작 좌표를 (0,0)으로 해 몸통을 그림
-void Lion::drawTorso() {
+void Lion::drawTorso(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glColor3f(1.0,1.0,0.0);
 	
 	glutWireCylinder(0.5,2,20,20);
@@ -261,13 +272,16 @@ void Lion::drawTorso() {
 }
 
 // 시작 좌표를 (0,0)으로 해 머리를 그림
-void Lion::drawHead() {
+void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 	//head
 	glPushMatrix();
 	glColor3f(1.0,1.0,0.0);
-	glutWireSphere(1,20,20);
+	//glutWireSphere(1,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+	gluSphere(face, 1, 20, 20);
 	glPopMatrix();
 	
+	// eye part
 	glPushMatrix();
 	glColor3f(0,0,0);
 	glTranslatef(-0.4,0.01,0.88);
@@ -286,7 +300,7 @@ void Lion::drawHead() {
 	glutSolidSphere(0.05,10,10);
 	glPopMatrix();
 
-
+	// nose part
 	glPushMatrix();
 	glColor3f(1,1,0);
 	glTranslatef(-0.2,-0.4,0.8);
@@ -299,7 +313,114 @@ void Lion::drawHead() {
 	glutWireSphere(0.2,10,10);
 	glPopMatrix();
 		
+	// mane part
+	glPushMatrix();
+	glTranslatef(cos(0.0)*1.7,sin(0.0)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI/2)*1.7,sin(PI/2)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI)*1.7,sin(PI)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI*3/2)*1.7,sin(PI*3/2)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI/4)*1.7,sin(PI/4)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI*3/4)*1.7,sin(PI*3/4)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI*5/4)*1.7,sin(PI*5/4)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(cos(PI*7/4)*1.7,sin(PI*7/4)*1.7,0);
+	glColor3f(1.0,0.5,0.0);
+	//glutWireSphere(0.7,20,20);
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	gluSphere(mane, 0.7, 20, 20);
+	glPopMatrix();
+	//head end
+}
+
+// 시작 좌표를 (0,0)으로 해 머리를 그림
+void Lion::drawHead() {
+	//head
+	glPushMatrix();
+	glColor3f(1.0,1.0,0.0);
+	glutWireSphere(1,20,20);
+	glPopMatrix();
 	
+	// eye part
+	glPushMatrix();
+	glColor3f(0,0,0);
+	glTranslatef(-0.4,0.01,0.88);
+	glutSolidSphere(0.07,10,10);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(0,0,0);
+	glTranslatef(0.4,0.01,0.88);
+	glutSolidSphere(0.07,10,10);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(0,0,0);
+	glTranslatef(0,-0.25,0.9375);
+	glutSolidSphere(0.05,10,10);
+	glPopMatrix();
+
+	// nose part
+	glPushMatrix();
+	glColor3f(1,1,0);
+	glTranslatef(-0.2,-0.4,0.8);
+	glutWireSphere(0.2,10,10);
+	glPopMatrix();
+
+	glPushMatrix();
+	glColor3f(1,1,0);
+	glTranslatef(0.2,-0.4,0.8);
+	glutWireSphere(0.2,10,10);
+	glPopMatrix();
+		
+	// mane part
 	glPushMatrix();
 	glTranslatef(cos(0.0)*1.7,sin(0.0)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
@@ -351,10 +472,10 @@ void Lion::drawHead() {
 }
 
 // (x-0.93*size, y-0.09*size)을 새로운 원점 기준으로 꼬리를 그림
-void Lion::drawTail() {
+void Lion::drawTail(GLuint lion_1_texture, GLuint lion_2_texture) {
 }
 
-void Lion::drawUpperLeg() {
+void Lion::drawUpperLeg(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glPushMatrix();
 	glRotatef(90,1,0,0);
 	glScalef(5,5,5);
@@ -363,7 +484,7 @@ void Lion::drawUpperLeg() {
 	glPopMatrix();
 }
 
-void Lion::drawLowerLeg() {
+void Lion::drawLowerLeg(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glPushMatrix();
 	glRotatef(90,1,0,0);
 	glScalef(5,5,5);

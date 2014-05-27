@@ -23,9 +23,17 @@ Background my_bg;
 Rock my_rock(jumplength);
 Fireloop my_loop(jumplength);
 
-GLubyte *rock; // 데이터를 가리킬 포인터
+GLubyte *rock; // 데이터를 가리킬 포인터 (바위 표면을 의미)
 BITMAPINFO *rock_info; // 비트맵 헤더 저장할 변수
 GLuint rock_texture; // 바위 표면 texture
+
+GLubyte *lion_1; // 데이터를 가리킬 포인터 (사자의 어두운 색 부분을 의미)
+BITMAPINFO *lion_1_info; // 비트맵 헤더 저장할 변수
+GLuint lion_1_texture; // 사자 texture
+
+GLubyte *lion_2; // 데이터를 가리킬 포인터 (사자의 밝은 색 부분을 의미)
+BITMAPINFO *lion_2_info; // 비트맵 헤더 저장할 변수
+GLuint lion_2_texture; // 사자 texture
 
 void init(void)
 {
@@ -48,10 +56,28 @@ void init(void)
 	my_rock.init(jumplength,mapsize,stage);
 	my_loop.init(jumplength,mapsize,stage);
 
-	glGenTextures (1,  &rock_texture); 
+	glGenTextures (1, &rock_texture); 
 	glBindTexture(GL_TEXTURE_2D, rock_texture);
 	rock=LoadDIBitmap("Rock-Texture-Surface.bmp",&rock_info);
 	glTexImage2D ( GL_TEXTURE_2D, 0, 3, 2592, 1944, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, rock);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glGenTextures(1, &lion_1_texture); 
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+	lion_1 = LoadDIBitmap("lion_texture_1.bmp",&lion_1_info);
+	glTexImage2D ( GL_TEXTURE_2D, 0, 3, 161, 88, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, lion_1);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glGenTextures(1, &lion_2_texture); 
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+	lion_2 = LoadDIBitmap("lion_texture_2.bmp", &lion_2_info);
+	glTexImage2D ( GL_TEXTURE_2D, 0, 3, 145, 110, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, lion_2);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -207,7 +233,7 @@ void display(void)
 		//draw lion
 		glPushMatrix();
 		glTranslatef(my_lion.x,my_lion.y,0);
-		my_lion.drawLion();
+		my_lion.drawLion(lion_1_texture, lion_2_texture);
 		glPopMatrix();
 
 		// draw rock
