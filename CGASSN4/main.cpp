@@ -287,7 +287,7 @@ void display(void)
 		//draw lion
 		glPushMatrix();
 		glTranslatef(my_lion.x,my_lion.y,0);
-		my_lion.drawLion(lion_1_texture, lion_2_texture);
+		my_lion.drawLion(shadingmode, lion_1_texture, lion_2_texture);
 		glPopMatrix();
 
 		// draw rock
@@ -296,7 +296,7 @@ void display(void)
 		glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glPushMatrix();
-		my_rock.display_rock();
+		my_rock.display_rock(shadingmode);
 		glPopMatrix();
 		glEnable(GL_DEPTH_TEST);
 		glFrontFace(GL_CCW);  
