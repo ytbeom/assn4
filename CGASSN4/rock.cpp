@@ -1,4 +1,5 @@
 #include "rock.h"
+#include "BitmapLoader.h"
 
 Rock::Rock(int jumplength){
 	RockList.push_back((rand()%2+1)*jumplength*2); 
@@ -21,7 +22,7 @@ void Rock::init(int _jumplength, float mapsize, int stage){
 }
 
 void Rock::display_rock() {
-	// 항아리를 그리는 부분
+	// 바위를 그리는 부분
 	for (int i = 0; i < NumofRock; i++) {
 		glPushMatrix();
 		glTranslatef(RockList[i]/2,15,6);

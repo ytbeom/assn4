@@ -30,18 +30,27 @@ public:
 	float thigh_angle_list[8];
 	float knee_angle_list[8];
 
+	// lion texture mapping을 위한 GLUquadricObj 객체들 선언
+	GLUquadricObj *mane;
+	//GLUquadricObj *nose[2];
+	GLUquadricObj *face;
+	//GLUquadricObj *UpperLeg[2];
+	//GLUquadricObj *LowerLeg[2];
+
+
 	Lion();
-	void drawLeg();
-	void drawLion();
+	//void drawLeg();
+	void drawLion(GLuint lion_1_texture, GLuint lion_2_texture);
 	void drawDeath(Lion my_lion, int viewmode);
 	void drawClear(Lion my_lion, int viewmode);
 
 	// assignment2 functions
-	void drawTorso();
+	void drawTorso(GLuint lion_1_texture, GLuint lion_2_texture);
 	void drawHead();
-	void drawTail();
-	void drawUpperLeg();
-	void drawLowerLeg();
+	void drawHead(GLuint lion_1_texture, GLuint lion_2_texture);
+	void drawTail(GLuint lion_1_texture, GLuint lion_2_texture);
+	void drawUpperLeg(GLuint lion_1_texture, GLuint lion_2_texture);
+	void drawLowerLeg(GLuint lion_1_texture, GLuint lion_2_texture);
 	int IsCollisionPot(float x, float y, float radius);
 	int IsCollisionLoop(float x, float y, float radius);
 };
