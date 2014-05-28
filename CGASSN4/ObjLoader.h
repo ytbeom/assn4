@@ -26,7 +26,7 @@ struct face
 {
 	float x[3], y[3], z[3];		//vertices
 	float u[3], v[3];			//text coords
-	float a[3], b[3], c[3];		//normals
+	int v1_index, v2_index, v3_index;		//vertex indexes
 };
 
 class model
@@ -86,7 +86,7 @@ public:
 		for (int i=0; i<98; i++)
 			vertexnormallist[i].facenum = 0;
 	}
-	void draw(int shadingmode);
+	void draw(int shadingmode, float rockscale);
 	float Y(float, float){return 0.0;}
 	bool Collide(float, float, float,float, float, float){return false;}
 	void cal_VertexNormal();

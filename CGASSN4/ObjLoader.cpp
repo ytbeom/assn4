@@ -5,7 +5,7 @@
 // http://blog.naver.com/PostView.nhn?blogId=bluefallsky&logNo=140119335319
 // http://3dapi.com/et01_opengl/
 
-void model::draw(int shadingmode)
+void model::draw(int shadingmode, float rockscale)
 {
 	if(loaded)
 	{
@@ -21,14 +21,20 @@ void model::draw(int shadingmode)
 			//glColor3f(150.0/255, 75.0/255, 0);
 			glColor3f(1,1,1);
 			glTexCoord2f(fcursor->data.u[0], fcursor->data.v[0]);
-			glVertex3f(fcursor->data.x[0], fcursor->data.y[0], fcursor->data.z[0]);
+			glVertex3f(fcursor->data.x[0]+(vertexnormallist[fcursor->data.v1_index].n_x)*rockscale,
+				fcursor->data.y[0]+(vertexnormallist[fcursor->data.v1_index].n_y)*rockscale, 
+				fcursor->data.z[0]+(vertexnormallist[fcursor->data.v1_index].n_z)*rockscale);
 
 			glTexCoord2f(fcursor->data.u[1], fcursor->data.v[1]);
-			glVertex3f(fcursor->data.x[1], fcursor->data.y[1], fcursor->data.z[1]);
+			glVertex3f(fcursor->data.x[1]+(vertexnormallist[fcursor->data.v2_index].n_x)*rockscale,
+				fcursor->data.y[1]+(vertexnormallist[fcursor->data.v2_index].n_y)*rockscale, 
+				fcursor->data.z[1]+(vertexnormallist[fcursor->data.v2_index].n_z)*rockscale);
 
 			glTexCoord2f(fcursor->data.u[2], fcursor->data.v[2]);
-			glVertex3f(fcursor->data.x[2], fcursor->data.y[2], fcursor->data.z[2]);
-			fcursor = fcursor->next;
+			glVertex3f(fcursor->data.x[2]+(vertexnormallist[fcursor->data.v3_index].n_x)*rockscale,
+				fcursor->data.y[2]+(vertexnormallist[fcursor->data.v3_index].n_y)*rockscale, 
+				fcursor->data.z[2]+(vertexnormallist[fcursor->data.v3_index].n_z)*rockscale);
+			fcursor = fcursor->next;;
 		}
 		glEnd();
 	}
@@ -131,6 +137,9 @@ bool model::loadFace(FILE * file)
 		temp->data.v[i] = tcursor->data.v;
 	}
 
+	temp->data.v1_index = v_index[0]-1;
+	temp->data.v2_index = v_index[1]-1;
+	temp->data.v3_index = v_index[2]-1;
 	vertexnormallist[v_index[0]-1].facenum++;
 	vertexnormallist[v_index[0]-1].facelist.push_back(*temp);
 
