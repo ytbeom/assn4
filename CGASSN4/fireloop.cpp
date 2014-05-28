@@ -23,14 +23,17 @@ void Fireloop::init(int _jumplength, float _mapsize, int stage){
 	mapsize = _mapsize;
 }
 
-void Fireloop::display_3d_fireloop(float lion_x, int translateLoop) {
+void Fireloop::display_3d_fireloop(float lion_x, int translateLoop, int shademode) {
 	for (int i=0; i < NumofLoop; i++) {
 		if(0<LoopList[i]+translateLoop && LoopList[i]+translateLoop<mapsize) {
 			glColor3f(1.0, 0.0, 0.0);
 			glPushMatrix();
 			glTranslatef(LoopList[i],70,0);
 			glRotatef(90,0.0,1.0,0.0);
-			glutWireTorus(3, 27, 20, 20);
+			if(shademode==0)
+				glutWireTorus(3, 27, 20, 20);
+			else
+				glutSolidTorus(3, 27, 20, 20);
 			glPopMatrix();
 		}
 	}

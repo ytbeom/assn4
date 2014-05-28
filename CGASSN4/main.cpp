@@ -1,3 +1,5 @@
+#include "glew.h"
+#include <gl\freeglut.h>
 #include <time.h>
 #include <stdlib.h>
 #include "lion.h"
@@ -7,6 +9,9 @@
 #include "rock.h"
 #include "BitmapLoader.h"
 #include "shader.h"
+
+
+
 
 float mapsize;
 float bottom = 20.0;
@@ -146,6 +151,7 @@ void display(void)
 		my_bg.tutorial();
 	else{
 	if (!collision() && my_lion.x > mapsize && my_bg.season<4) {
+		glDisable(GL_LIGHTING);
 		my_lion.drawClear(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
@@ -155,6 +161,7 @@ void display(void)
 		//exit(1);
 	}
 	else if (!collision() && my_lion.x > mapsize && my_bg.season==4) {
+		glDisable(GL_LIGHTING);
 		my_lion.drawClear(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
@@ -166,12 +173,15 @@ void display(void)
 		glEnable(GL_COLOR_MATERIAL);
 
 
-		GLfloat lightposition [] = {mapsize/2, 200, 0, 0};
-		GLfloat lightposition2 [] = {0, 50, 0, 0};
-		GLfloat ambient [] = {1, 0, 0, 1};
-		GLfloat ambient2 [] = {1, 0, 0, 1};
-		GLfloat diffuse [] = {1, 1, 0, 1};
-		GLfloat diffuse2 [] = {1, 1, 0, 1};
+		GLfloat lightposition [] = {mapsize/2, 200, 0, 1};
+		GLfloat lightposition2 [] = {my_lion.x, 50, 0, 1};
+		GLfloat lightposition3 [] = {mapsize/2, 100, 0, 1};
+		GLfloat lightdirection [] = {my_lion.x, 0, 0};
+		GLfloat cut [] = {50};
+		GLfloat ambient [] = {1, 1, 1, 1};
+		GLfloat ambient2 [] = {1, 1, 1, 1};
+		GLfloat diffuse [] = {1, 1, 1, 1};
+		GLfloat diffuse2 [] = {1, 1, 1, 1};
 
 		switch(lightsource){
 		case 0:
@@ -185,12 +195,16 @@ void display(void)
 			glLightfv(GL_LIGHT1, GL_AMBIENT, ambient2);
 			break;
 		case 1:
+
+
 			glEnable(GL_LIGHT2);
 			glEnable(GL_LIGHT3);
 			glDisable(GL_LIGHT0);
 			glDisable(GL_LIGHT1);
-			glLightfv(GL_LIGHT2, GL_POSITION, lightposition);
+			glLightfv(GL_LIGHT2, GL_POSITION, lightposition3);
 			glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuse);
+			glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, lightdirection);
+			glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, cut);
 			glLightfv(GL_LIGHT3, GL_POSITION, lightposition2);
 			glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse2);
 			break;
@@ -281,7 +295,7 @@ void display(void)
 		//translate Loop and draw 3D fireloop
 		glPushMatrix();
 		glTranslatef(translateLoop,0,0);
-		my_loop.display_3d_fireloop(my_lion.x, translateLoop);
+		my_loop.display_3d_fireloop(my_lion.x, translateLoop, shadingmode);
 		glPopMatrix();
 
 		//draw lion
@@ -308,6 +322,7 @@ void display(void)
 	}
 	
 	else {
+		glDisable(GL_LIGHTING);
 		my_lion.drawDeath(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
@@ -481,6 +496,78 @@ void moveObjects(int) {
 	glutTimerFunc(2000/60,moveObjects,1);
 }
 
+/**************************************************
+
+
+***************************************************/
+
+char *textFileRead(char *fn) {
+    FILE *fp;
+    char *content = NULL;
+
+    int count=0;
+
+    if (fn != NULL) {
+        fopen_s(&fp, fn,"rt");
+
+        if (fp != NULL) {
+            fseek(fp, 0, SEEK_END);
+            count = ftell(fp);
+            rewind(fp);
+
+            if (count > 0) {
+                content = (char *)malloc(sizeof(char) * (count+1));
+                count = fread(content,sizeof(char),count,fp);
+                content[count] = '\0';
+            }
+            fclose(fp);
+        }
+    }
+    return content;
+}
+
+GLuint set_shader(char * vert, char *frag) {
+    char *vs,*fs;
+
+    vs = textFileRead(vert);
+    fs = textFileRead(frag);
+    if (vs == NULL || fs == NULL) {
+        printf("No shader files\n");
+        return 0;
+    }
+
+    GLuint vert_shader = glCreateShader(GL_VERTEX_SHADER);
+    GLuint frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
+
+    const char * vv = vs;
+    const char * ff = fs;
+
+    glShaderSource(vert_shader, 1, &vv, NULL);
+	glShaderSource(frag_shader, 1, &ff, NULL);
+
+    free(vs);
+    free(fs);
+
+    glCompileShader(vert_shader);
+    glCompileShader(frag_shader);
+
+    GLuint shader_program = glCreateProgram();
+
+    glAttachShader(shader_program, vert_shader);
+
+    glAttachShader(shader_program, frag_shader);
+
+    glLinkProgram(shader_program);
+
+
+
+    return shader_program;
+}
+
+/********************************************************
+********************************************************/
+
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -494,6 +581,9 @@ int main(int argc, char** argv)
 //	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(specialkeyboard);
+
+	//GLuint program = set_shader("Shader.vert", "Shader.frag");
+	//glUseProgram(program);
 
 	glutTimerFunc(2000/60,moveObjects,1);
 	glutMainLoop();
