@@ -59,6 +59,8 @@ bool model::Load(char * objfile, char * mtlname)
 		if(!strcmp("usemtl", buffer));
 			continue;
 	}
+	//data loading이 끝난 후, vertex normal vector를 계산한다
+	cal_VertexNormal();
 	fclose(file);
 	loaded = true;
 	return true;
@@ -129,6 +131,15 @@ bool model::loadFace(FILE * file)
 		temp->data.v[i] = tcursor->data.v;
 	}
 
+	vertexnormallist[v_index[0]-1].facenum++;
+	vertexnormallist[v_index[0]-1].facelist.push_back(*temp);
+
+	vertexnormallist[v_index[1]-1].facenum++;
+	vertexnormallist[v_index[1]-1].facelist.push_back(*temp);
+
+	vertexnormallist[v_index[2]-1].facenum++;
+	vertexnormallist[v_index[2]-1].facelist.push_back(*temp);
+
 	temp->next = NULL;
 	if(ffirst == NULL)
 	{
@@ -144,4 +155,38 @@ bool model::loadFace(FILE * file)
 	}
 	faces++;
 	return true;
+}
+
+void model::cal_VertexNormal() {
+	for (int i=0; i<98; i++) {
+		vertexnormallist[i].n_x = 0;
+		vertexnormallist[i].n_y = 0;
+		vertexnormallist[i].n_z = 0;
+		for (int j=0; j<vertexnormallist[i].facenum; j++) {
+			float v1_x = vertexnormallist[i].facelist[j].data.x[1]-vertexnormallist[i].facelist[j].data.x[0];
+			float v1_y = vertexnormallist[i].facelist[j].data.y[1]-vertexnormallist[i].facelist[j].data.y[0];
+			float v1_z = vertexnormallist[i].facelist[j].data.z[1]-vertexnormallist[i].facelist[j].data.z[0];
+			float v2_x = vertexnormallist[i].facelist[j].data.x[2]-vertexnormallist[i].facelist[j].data.x[1];
+			float v2_y = vertexnormallist[i].facelist[j].data.y[2]-vertexnormallist[i].facelist[j].data.y[1];
+			float v2_z = vertexnormallist[i].facelist[j].data.z[2]-vertexnormallist[i].facelist[j].data.z[1];
+			
+			// 현재 관찰하고 있는 면의 normal vector 성분
+			float f_nx = v1_y*v2_z - v1_z*v2_y;
+			float f_ny = v1_z*v2_x - v1_x*v2_z;
+			float f_nz = v1_x*v2_y - v1_y*v2_z;
+			float vectorsize = sqrt((f_nx)*(f_nx)+(f_ny)*(f_ny)+(f_nz)*(f_nz));
+			f_nx = f_nx/vectorsize;
+			f_ny = f_ny/vectorsize;
+			f_nz = f_nz/vectorsize;
+
+			//계산한 현재 관찰 면의 normal vector 성분을 vertex normal vector 성분에 더한다
+			vertexnormallist[i].n_x += f_nx;
+			vertexnormallist[i].n_y += f_ny;
+			vertexnormallist[i].n_z += f_nz;
+		}
+		// 각 면에 대한 계산 값이 모두 더해지면, 그 합을 인접한 face의 수로 나눈다
+		vertexnormallist[i].n_x = vertexnormallist[i].n_x/vertexnormallist[i].facenum;
+		vertexnormallist[i].n_y = vertexnormallist[i].n_y/vertexnormallist[i].facenum;
+		vertexnormallist[i].n_z = vertexnormallist[i].n_z/vertexnormallist[i].facenum;
+	}
 }
