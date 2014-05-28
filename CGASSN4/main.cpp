@@ -172,8 +172,11 @@ void display(void)
 		glEnable(GL_COLOR_MATERIAL);
 
 
-		GLfloat lightposition [] = {mapsize/2, 200, 0, 0};
-		GLfloat lightposition2 [] = {0, 50, 0, 0};
+		GLfloat lightposition [] = {mapsize/2, 200, 0, 1};
+		GLfloat lightposition2 [] = {my_lion.x, 50, 0, 1};
+		GLfloat lightposition3 [] = {mapsize/2, 100, 0, 1};
+		GLfloat lightdirection [] = {my_lion.x, 0, 0};
+		GLfloat cut [] = {50};
 		GLfloat ambient [] = {1, 1, 1, 1};
 		GLfloat ambient2 [] = {1, 1, 1, 1};
 		GLfloat diffuse [] = {1, 1, 1, 1};
@@ -191,12 +194,16 @@ void display(void)
 			glLightfv(GL_LIGHT1, GL_AMBIENT, ambient2);
 			break;
 		case 1:
+
+
 			glEnable(GL_LIGHT2);
 			glEnable(GL_LIGHT3);
 			glDisable(GL_LIGHT0);
 			glDisable(GL_LIGHT1);
-			glLightfv(GL_LIGHT2, GL_POSITION, lightposition);
+			glLightfv(GL_LIGHT2, GL_POSITION, lightposition3);
 			glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuse);
+			glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, lightdirection);
+			glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, cut);
 			glLightfv(GL_LIGHT3, GL_POSITION, lightposition2);
 			glLightfv(GL_LIGHT3, GL_DIFFUSE, diffuse2);
 			break;
