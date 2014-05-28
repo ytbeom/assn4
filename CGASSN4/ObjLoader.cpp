@@ -15,8 +15,8 @@ void model::draw()
 		while(fcursor != NULL)
 		{
 			nCnt++;
-			glColor3f(150.0/255, 75.0/255, 0);
-
+			//glColor3f(150.0/255, 75.0/255, 0);
+			glColor3f(1,1,1);
 			glTexCoord2f(fcursor->data.u[0], fcursor->data.v[0]);
 			glVertex3f(fcursor->data.x[0], fcursor->data.y[0], fcursor->data.z[0]);
 
