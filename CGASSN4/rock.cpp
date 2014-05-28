@@ -21,13 +21,13 @@ void Rock::init(int _jumplength, float mapsize, int stage){
 	NumofRock = RockList.size();
 }
 
-void Rock::display_rock() {
+void Rock::display_rock(int shadingmode) {
 	// 바위를 그리는 부분
 	for (int i = 0; i < NumofRock; i++) {
 		glPushMatrix();
 		glTranslatef(RockList[i]/2,15,6);
 		glScalef(6.0,6.0,6.0);
-		rockmodel.draw();
+		rockmodel.draw(shadingmode);
 		glPopMatrix();
 	}
 }

@@ -83,12 +83,16 @@ void Lion::drawLeg(){
 }
 */
 
-void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
+void Lion::drawLion(int shadingmode, GLuint lion_1_texture, GLuint lion_2_texture){
 	// assignment2 drawLion function
 	// 시작은 Torso의 기준점, 겹치는 문제 때문에 다리를 먼저그림
 
 	// Quadric 객체들의 속성 결정, shading mode에 따라 GLU_LINE인지 GLU_FILL인지 결정해야 함
-	gluQuadricDrawStyle(quadric_lion, GLU_FILL);
+	if (shadingmode == 0)
+		gluQuadricDrawStyle(quadric_lion, GLU_LINE);
+	else
+		gluQuadricDrawStyle(quadric_lion, GLU_FILL);
+
 	gluQuadricTexture(quadric_lion, GL_TRUE);
 
 	glEnable (GL_TEXTURE_2D);

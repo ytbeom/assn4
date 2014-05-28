@@ -72,7 +72,7 @@ public:
 		ffirst=fcurrent= NULL;
 		vindex=tindex=1;
 	}
-	void draw();
+	void draw(int shadingmode);
 	float Y(float, float){return 0.0;}
 	bool Collide(float, float, float,float, float, float){return false;}
 };

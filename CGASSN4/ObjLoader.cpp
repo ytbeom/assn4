@@ -5,13 +5,16 @@
 // http://blog.naver.com/PostView.nhn?blogId=bluefallsky&logNo=140119335319
 // http://3dapi.com/et01_opengl/
 
-void model::draw()
+void model::draw(int shadingmode)
 {
 	if(loaded)
 	{
 		fnode * fcursor = ffirst;
 		int nCnt = 0;
-		glBegin(GL_TRIANGLES);
+		if (shadingmode == 0)
+			glBegin(GL_LINE_LOOP);
+		else
+			glBegin(GL_TRIANGLES);
 		while(fcursor != NULL)
 		{
 			nCnt++;

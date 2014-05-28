@@ -36,7 +36,7 @@ public:
 
 	Lion();
 	//void drawLeg();
-	void drawLion(GLuint lion_1_texture, GLuint lion_2_texture);
+	void drawLion(int shading_mode, GLuint lion_1_texture, GLuint lion_2_texture);
 	void drawDeath(Lion my_lion, int viewmode);
 	void drawClear(Lion my_lion, int viewmode);
 
