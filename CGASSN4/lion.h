@@ -1,6 +1,3 @@
-#ifndef lion_H
-#define lion_H
-
 #include <iostream>
 #include <windows.h>
 #include <gl/glut.h>
@@ -17,6 +14,9 @@
 
 #define PI 3.1415926535
 #define g 9.80665
+
+#ifndef LION_H
+#define LION_H
 
 class Lion{
 public:

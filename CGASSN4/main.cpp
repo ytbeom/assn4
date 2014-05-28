@@ -6,6 +6,7 @@
 #include "stage.h"
 #include "rock.h"
 #include "BitmapLoader.h"
+#include "shader.h"
 
 float mapsize;
 float bottom = 20.0;
@@ -497,3 +498,4 @@ int main(int argc, char** argv)
 	glutTimerFunc(2000/60,moveObjects,1);
 	glutMainLoop();
 }
+
