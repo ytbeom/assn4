@@ -144,6 +144,7 @@ void display(void)
 		my_bg.tutorial();
 	else{
 	if (!collision() && my_lion.x > mapsize && my_bg.season<4) {
+		glDisable(GL_LIGHTING);
 		my_lion.drawClear(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
@@ -153,6 +154,7 @@ void display(void)
 		//exit(1);
 	}
 	else if (!collision() && my_lion.x > mapsize && my_bg.season==4) {
+		glDisable(GL_LIGHTING);
 		my_lion.drawClear(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
@@ -166,10 +168,10 @@ void display(void)
 
 		GLfloat lightposition [] = {mapsize/2, 200, 0, 0};
 		GLfloat lightposition2 [] = {0, 50, 0, 0};
-		GLfloat ambient [] = {1, 0, 0, 1};
-		GLfloat ambient2 [] = {1, 0, 0, 1};
-		GLfloat diffuse [] = {1, 1, 0, 1};
-		GLfloat diffuse2 [] = {1, 1, 0, 1};
+		GLfloat ambient [] = {1, 1, 1, 1};
+		GLfloat ambient2 [] = {1, 1, 1, 1};
+		GLfloat diffuse [] = {1, 1, 1, 1};
+		GLfloat diffuse2 [] = {1, 1, 1, 1};
 
 		switch(lightsource){
 		case 0:
@@ -306,6 +308,7 @@ void display(void)
 	}
 	
 	else {
+		glDisable(GL_LIGHTING);
 		my_lion.drawDeath(my_lion, viewmode);
 		glFlush();
 		glutSwapBuffers();
