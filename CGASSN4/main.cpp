@@ -196,9 +196,10 @@ void display(void)
 
 		switch(shadingmode){
 		case 0:
-			//glDisable(GL_LIGHTING);
+			glDisable(GL_LIGHTING);
 			break;
 		case 1:
+			//glLightModel(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
 			glShadeModel(GL_FLAT);
 			break;
 		case 2:
