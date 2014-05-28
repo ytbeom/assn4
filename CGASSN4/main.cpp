@@ -61,7 +61,7 @@ void init(void)
 
 	glGenTextures (1, &rock_texture); 
 	glBindTexture(GL_TEXTURE_2D, rock_texture);
-	rock=LoadDIBitmap("Rock-Texture-Surfac.bmp",&rock_info);
+	rock=LoadDIBitmap("Rock-Texture-Surface.bmp",&rock_info);
 	glTexImage2D ( GL_TEXTURE_2D, 0, 3, 2592, 1944, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, rock);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
