@@ -19,7 +19,7 @@ public:
 
 	Rock(int jumplength);
 	void init(int jumplength, float mapsize, int stage);
-	void display_rock(int shadingmode);
+	void display_rock(int shadingmode, float rockscale);
 };
 
 

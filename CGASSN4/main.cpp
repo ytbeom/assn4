@@ -19,6 +19,7 @@ int startfresh;
 int viewmode = 5; // 1: 1st person view, 2: 3rd person view, 3: top view, 4: side view 5: assignment 1,2 view
 int lightsource = 0;
 int shadingmode = 0;
+float rockscale = 0; // vertex shader에 사용할 변수
 
 Lion my_lion;
 Background my_bg;
@@ -296,7 +297,7 @@ void display(void)
 		glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glPushMatrix();
-		my_rock.display_rock(shadingmode);
+		my_rock.display_rock(shadingmode, rockscale);
 		glPopMatrix();
 		glEnable(GL_DEPTH_TEST);
 		glFrontFace(GL_CCW);  
@@ -452,6 +453,12 @@ void keyboard(unsigned char key, int x, int y) {
 		break;
 	case 's':
 		lightsource = 1 ;
+		break;
+	case ',':
+		rockscale -= 0.1;
+		break;
+	case '.':
+		rockscale += 0.1;
 		break;
 	}
 	glutPostRedisplay();
