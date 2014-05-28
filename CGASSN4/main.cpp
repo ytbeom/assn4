@@ -8,10 +8,6 @@
 #include "stage.h"
 #include "rock.h"
 #include "BitmapLoader.h"
-#include "shader.h"
-
-
-
 
 float mapsize;
 float bottom = 20.0;
@@ -99,7 +95,7 @@ void init(void)
 }
 
 int collision(){
-	/*
+	
 	for(int i = 0; i < my_rock.NumofRock; i++){
 		if(my_lion.IsCollisionPot(my_rock.RockList[i]/2, 15.0+2.4971*6.0, 3.18344*3))
 			return true;
@@ -109,7 +105,7 @@ int collision(){
 		if(my_lion.IsCollisionLoop(my_loop.LoopList[i]+translateLoop, my_loop.top - my_loop.RadiusofLoop, my_loop.RadiusofLoop))
 			return true;
 	}
-	*/
+	
 	return false;
 }
 
