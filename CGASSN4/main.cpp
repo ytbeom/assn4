@@ -161,8 +161,8 @@ void display(void)
 	}
 	else if(!collision()) {
 		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		glEnable(GL_LIGHT1);
+		glEnable(GL_COLOR_MATERIAL);
+
 
 		GLfloat lightposition [] = {mapsize/2, 200, 0, 0};
 		GLfloat lightposition2 [] = {0, 50, 0, 0};
@@ -199,7 +199,6 @@ void display(void)
 			glDisable(GL_LIGHTING);
 			break;
 		case 1:
-			//glLightModel(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
 			glShadeModel(GL_FLAT);
 			break;
 		case 2:
@@ -293,7 +292,7 @@ void display(void)
 		glEnable (GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, rock_texture);
 		glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glPushMatrix();
 		my_rock.display_rock();
 		glPopMatrix();

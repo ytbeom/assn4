@@ -93,11 +93,11 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 
 	glEnable (GL_TEXTURE_2D);
 	glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	if (jump_state == 0) {
 		// 앞쪽 왼다리
-		glColor3f(1.0,0.9,0.0);
+		glColor3f(1,1,1);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
@@ -112,7 +112,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();	
 
 		// 앞쪽 오른다리
-		glColor3f(1.0,1.0,0.0);
+		//glColor3f(1.0,1.0,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
@@ -127,7 +127,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();
 
 		// 뒷쪽 왼다리
-		glColor3f(1.0,0.9,0.0);
+		//glColor3f(1.0,0.9,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
@@ -142,7 +142,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();
 
 		// 뒷쪽 오른다리
-		glColor3f(1.0,1.0,0.0);
+		//glColor3f(1.0,1.0,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
@@ -158,7 +158,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 	}
 	else {
 		// 앞쪽 왼다리
-		glColor3f(1.0,0.9,0.0);
+		glColor3f(1,1,1);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,-0.1*size);
@@ -173,7 +173,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();
 
 		// 앞쪽 오른다리
-		glColor3f(1.0,1.0,0.0);
+		//glColor3f(1.0,1.0,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.3*size,-0.25*size,0.1*size);
@@ -188,7 +188,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();
 
 		// 뒷쪽 왼다리
-		glColor3f(1.0,0.9,0.0);
+		//glColor3f(1.0,0.9,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,-0.1*size);
@@ -203,7 +203,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 		glPopMatrix();
 
 		// 뒷쪽 오른다리
-		glColor3f(1.0,1.0,0.0);
+		//glColor3f(1.0,1.0,0.0);
 		glPushMatrix();
 		// Torso의 기준점에서 앞쪽 다리의 상대적인 위치로 변환
 		glTranslatef(-0.9*size,-0.25*size,0.1*size);
@@ -237,7 +237,7 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 void Lion::drawTorso(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
 
-	glColor3f(1.0,1.0,0.0);
+	glColor3f(1.0,1.0,1.0);
 
 	// main body
 	//glutWireCylinder(0.5,2,20,20);
@@ -288,7 +288,7 @@ void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
 
 	glPushMatrix();
-	glColor3f(1.0,1.0,0.0);
+	glColor3f(1.0,1.0,1.0);
 	//glutWireSphere(1,20,20);
 	gluSphere(quadric_lion, 1, 20, 20);
 	glPopMatrix();
@@ -318,14 +318,14 @@ void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
 	
 	glPushMatrix();
-	glColor3f(1,1,0);
+	glColor3f(1,1,1);
 	glTranslatef(-0.2,-0.4,0.8);
 	//glutWireSphere(0.2,10,10);
 	gluSphere(quadric_lion, 0.2, 10, 10);
 	glPopMatrix();
 
 	glPushMatrix();
-	glColor3f(1,1,0);
+	//glColor3f(1,1,0);
 	glTranslatef(0.2,-0.4,0.8);
 	//glutWireSphere(0.2,10,10);
 	gluSphere(quadric_lion, 0.2, 10, 10);
@@ -338,56 +338,56 @@ void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 
 	glPushMatrix();
 	glTranslatef(cos(0.0)*1.7,sin(0.0)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI/2)*1.7,sin(PI/2)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI)*1.7,sin(PI)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*3/2)*1.7,sin(PI*3/2)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI/4)*1.7,sin(PI/4)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*3/4)*1.7,sin(PI*3/4)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*5/4)*1.7,sin(PI*5/4)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*7/4)*1.7,sin(PI*7/4)*1.7,0);
-	glColor3f(1.0,0.5,0.0);
+	//glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
 	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
