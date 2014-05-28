@@ -29,13 +29,7 @@ Lion::Lion() {
 	knee_angle_list[6] = 0.0;
 	knee_angle_list[7] = -45.0;
 
-	face = gluNewQuadric();
-	gluQuadricDrawStyle(face, GLU_FILL);
-	gluQuadricTexture(face, GL_TRUE);
-		
-	mane = gluNewQuadric();
-	gluQuadricDrawStyle(mane, GLU_FILL);
-	gluQuadricTexture(mane, GL_TRUE);
+	quadric_lion = gluNewQuadric();
 }
 
 int Lion::IsCollisionPot(float _x, float _y, float _radius){
@@ -91,8 +85,12 @@ void Lion::drawLeg(){
 
 void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 	// assignment2 drawLion function
-
 	// 시작은 Torso의 기준점, 겹치는 문제 때문에 다리를 먼저그림
+
+	// Quadric 객체들의 속성 결정, shading mode에 따라 GLU_LINE인지 GLU_FILL인지 결정해야 함
+	gluQuadricDrawStyle(quadric_lion, GLU_FILL);
+	gluQuadricTexture(quadric_lion, GL_TRUE);
+
 	glEnable (GL_TEXTURE_2D);
 	glTexGeni (GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -237,49 +235,65 @@ void Lion::drawLion(GLuint lion_1_texture, GLuint lion_2_texture){
 
 // 시작 좌표를 (0,0)으로 해 몸통을 그림
 void Lion::drawTorso(GLuint lion_1_texture, GLuint lion_2_texture) {
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+
 	glColor3f(1.0,1.0,0.0);
-	
-	glutWireCylinder(0.5,2,20,20);
-	
+
+	// main body
+	//glutWireCylinder(0.5,2,20,20);
+	gluCylinder(quadric_lion, 0.5, 0.5, 2, 20, 20);
+
 	glPushMatrix();
 	glRotatef(180,0,1,0);
-	glutWireCone(0.5,0.5,10,10);
+	//glutWireCone(0.5,0.5,10,10);
+	gluCylinder(quadric_lion, 0.5, 0, 0.5, 10, 10);
 	glPopMatrix();
 
 	glPushMatrix();
 	glScalef(1,1,0.4);
-	glutWireSphere(0.5,20,20);
+	//glutWireSphere(0.5,20,20);
+	gluSphere(quadric_lion, 0.5, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(0,0,2);
 	glScalef(1,1,0.4);
-	glutWireSphere(0.5,20,20);
+	//glutWireSphere(0.5,20,20);
+	gluSphere(quadric_lion, 0.5, 20, 20);
 	glPopMatrix();
 
+	// tail part
 	glPushMatrix();
 	glTranslatef(0,0,2);
 	glRotatef(45,0,1,0);
-	glutWireCylinder(0.05,2,10,10);
+	//glutWireCylinder(0.05,2,10,10);
+	gluCylinder(quadric_lion, 0.05, 0.05, 2, 10, 10);
 	
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
 	glPushMatrix();
 	glColor3f(1.0,0.5,0.0);
 	glTranslatef(0,0,2);
-	glutWireSphere(0.1,10,10);
+	//glutWireSphere(0.1,10,10);
+	gluSphere(quadric_lion, 0.1, 10, 10);
 	glPopMatrix();
 	
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glPopMatrix();
 }
 
 // 시작 좌표를 (0,0)으로 해 머리를 그림
 void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 	//head
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+
 	glPushMatrix();
 	glColor3f(1.0,1.0,0.0);
 	//glutWireSphere(1,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
-	gluSphere(face, 1, 20, 20);
+	gluSphere(quadric_lion, 1, 20, 20);
 	glPopMatrix();
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	// eye part
 	glPushMatrix();
@@ -301,82 +315,84 @@ void Lion::drawHead(GLuint lion_1_texture, GLuint lion_2_texture) {
 	glPopMatrix();
 
 	// nose part
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+	
 	glPushMatrix();
 	glColor3f(1,1,0);
 	glTranslatef(-0.2,-0.4,0.8);
-	glutWireSphere(0.2,10,10);
+	//glutWireSphere(0.2,10,10);
+	gluSphere(quadric_lion, 0.2, 10, 10);
 	glPopMatrix();
 
 	glPushMatrix();
 	glColor3f(1,1,0);
 	glTranslatef(0.2,-0.4,0.8);
-	glutWireSphere(0.2,10,10);
+	//glutWireSphere(0.2,10,10);
+	gluSphere(quadric_lion, 0.2, 10, 10);
 	glPopMatrix();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 		
 	// mane part
+	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
+
 	glPushMatrix();
 	glTranslatef(cos(0.0)*1.7,sin(0.0)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI/2)*1.7,sin(PI/2)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI)*1.7,sin(PI)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*3/2)*1.7,sin(PI*3/2)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI/4)*1.7,sin(PI/4)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*3/4)*1.7,sin(PI*3/4)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*5/4)*1.7,sin(PI*5/4)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(cos(PI*7/4)*1.7,sin(PI*7/4)*1.7,0);
 	glColor3f(1.0,0.5,0.0);
 	//glutWireSphere(0.7,20,20);
-	glBindTexture(GL_TEXTURE_2D, lion_1_texture);
-	gluSphere(mane, 0.7, 20, 20);
+	gluSphere(quadric_lion, 0.7, 20, 20);
 	glPopMatrix();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
 	//head end
 }
 
@@ -476,19 +492,31 @@ void Lion::drawTail(GLuint lion_1_texture, GLuint lion_2_texture) {
 }
 
 void Lion::drawUpperLeg(GLuint lion_1_texture, GLuint lion_2_texture) {
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+
 	glPushMatrix();
 	glRotatef(90,1,0,0);
 	glScalef(5,5,5);
-	glutSolidCylinder(0.2,0.5,10,10);
-	glutSolidSphere(0.2,20,20);
+	//glutSolidCylinder(0.2,0.5,10,10);
+	//glutSolidSphere(0.2,20,20);
+	gluCylinder(quadric_lion, 0.2, 0.2, 0.5, 10, 10);
+	gluSphere(quadric_lion, 0.2, 20, 20);
 	glPopMatrix();
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Lion::drawLowerLeg(GLuint lion_1_texture, GLuint lion_2_texture) {
+	glBindTexture(GL_TEXTURE_2D, lion_2_texture);
+
 	glPushMatrix();
 	glRotatef(90,1,0,0);
 	glScalef(5,5,5);
-	glutSolidCylinder(0.2,0.5,10,10);
-	glutSolidSphere(0.2,20,20);
+	//glutSolidCylinder(0.2,0.5,10,10);
+	//glutSolidSphere(0.2,20,20);
+	gluCylinder(quadric_lion, 0.2, 0.2, 0.5, 10, 10);
+	gluSphere(quadric_lion, 0.2, 20, 20);
 	glPopMatrix();
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

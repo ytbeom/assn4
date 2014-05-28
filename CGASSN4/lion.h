@@ -31,11 +31,7 @@ public:
 	float knee_angle_list[8];
 
 	// lion texture mapping을 위한 GLUquadricObj 객체들 선언
-	GLUquadricObj *mane;
-	//GLUquadricObj *nose[2];
-	GLUquadricObj *face;
-	//GLUquadricObj *UpperLeg[2];
-	//GLUquadricObj *LowerLeg[2];
+	GLUquadricObj *quadric_lion;
 
 
 	Lion();
